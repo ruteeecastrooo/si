@@ -1,8 +1,7 @@
 import numpy as np
-
 import src.si.io.csv as csv
-import pandas as pd
 
+# EXERCÍCIO 1
 ficheiro = 'C:\\Users\\rutee\\OneDrive\\Ambiente de Trabalho\\sib\\si\\datasets\\iris.csv'
 dataset = csv.read_csv(ficheiro, features=True, label=True)
 
