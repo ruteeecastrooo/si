@@ -1,4 +1,5 @@
 from typing import Tuple, Sequence
+
 import numpy as np
 import pandas as pd
 
@@ -7,6 +8,7 @@ class Dataset:
     def __init__(self, X: np.ndarray, y: np.ndarray = None, features: Sequence[str] = None, label: str = None):
         """
         Dataset represents a machine learning tabular dataset.
+
         Parameters
         ----------
         X: numpy.ndarray (n_samples, n_features)
@@ -50,7 +52,6 @@ class Dataset:
         -------
         bool
         """
-        # return self.y != None
         return self.y is not None
 
     def get_classes(self) -> np.ndarray:
@@ -129,12 +130,14 @@ class Dataset:
     def from_dataframe(cls, df: pd.DataFrame, label: str = None):
         """
         Creates a Dataset object from a pandas DataFrame
+
         Parameters
         ----------
         df: pandas.DataFrame
             The DataFrame
         label: str
             The label name
+
         Returns
         -------
         Dataset
@@ -142,11 +145,9 @@ class Dataset:
         if label:
             X = df.drop(label, axis=1).to_numpy()
             y = df[label].to_numpy()
-            # features = .... todos menos o label
         else:
             X = df.to_numpy()
             y = None
-            # features = df.columns.tolist()
 
         features = df.columns.tolist()
         return cls(X, y, features=features, label=label)
@@ -154,6 +155,7 @@ class Dataset:
     def to_dataframe(self) -> pd.DataFrame:
         """
         Converts the dataset to a pandas DataFrame
+
         Returns
         -------
         pandas.DataFrame
@@ -174,6 +176,7 @@ class Dataset:
                     label: str = None):
         """
         Creates a Dataset object from random data
+
         Parameters
         ----------
         n_samples: int
@@ -186,6 +189,7 @@ class Dataset:
             The feature names
         label: str
             The label name
+
         Returns
         -------
         Dataset
@@ -193,3 +197,16 @@ class Dataset:
         X = np.random.rand(n_samples, n_features)
         y = np.random.randint(0, n_classes, n_samples)
         return cls(X, y, features=features, label=label)
+
+    # exercício 2
+    def dropna(self):
+        # cria uma máscara com os registos a manter (com todos os valores preenchidos)
+        mascara_na = np.logical_not(np.any(np.isnan(self.X), axis=1))
+
+        # filtramos para manter apenas os registos que obedeçam à mascara de cima
+        self.X = self.X[mascara_na, :]
+        self.y = self.y[mascara_na]
+
+    def fillna(self, valor):
+        self.X = np.nan_to_num(self.X, nan=valor)
+
