@@ -27,7 +27,3 @@ registos_iris_setosa = dataset.X[registos_iris_setosa, :]
 print(registos_iris_setosa)
 print(registos_iris_setosa.shape)
 
-
-A = np.array([1, 5, np.nan, 10])
-print(A)
-print()
