@@ -1,6 +1,6 @@
 import pandas as pd
 
-from si.data.dataset import Dataset
+from si.data import Dataset
 
 
 def read_csv(filename: str,
