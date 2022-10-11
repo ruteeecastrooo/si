@@ -68,7 +68,7 @@ class VarianceThreshold:
         """
         X = dataset.X
 
-        features_mask = self.variance > self.threshold
+        features_mask = self.variance > self.threshold # [True, False, False, True]
         X = X[:, features_mask]
         features = np.array(dataset.features)[features_mask]
         return Dataset(X=X, y=dataset.y, features=list(features), label=dataset.label)
@@ -97,7 +97,7 @@ if __name__ == '__main__':
                       features=["f1", "f2", "f3", "f4"],
                       label="y")
 
-    selector = VarianceThreshold()
+    selector = VarianceThreshold(threshold=0.9)
     selector = selector.fit(dataset)
     dataset = selector.transform(dataset)
     print(dataset.features)

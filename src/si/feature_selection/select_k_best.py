@@ -71,6 +71,9 @@ class SelectKBest:
         dataset: Dataset
             A labeled dataset with the k highest scoring features.
         """
+        # self.F = [10, 5, 1]
+        # [1,5,10]
+        # [2,1,0]
         idxs = np.argsort(self.F)[-self.k:]
         features = np.array(dataset.features)[idxs]
         return Dataset(X=dataset.X[:, idxs], y=dataset.y, features=list(features), label=dataset.label)
