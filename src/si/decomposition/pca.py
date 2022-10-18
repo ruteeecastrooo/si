@@ -49,7 +49,7 @@ class PCA:
         self.fit(dataset)
         return self.transform(dataset)
 
-
+#testar ex aula 3
 if __name__ == '__main__':
     from si.data.dataset import Dataset
     import pandas as pd
