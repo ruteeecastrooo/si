@@ -82,5 +82,4 @@ Note: A python package also contains many configuration files (e.g., _setup.py_,
 
 
 ## Credits
-This package was originally developed by [Vítor Pereira](https://github.com/vmspereira/si) and 
-maintained lately by [Fernando Cruz](https://github.com/cruz-f/si).
+This package is heavily inspired and adtaped from https://github.com/vmspereira/si.
