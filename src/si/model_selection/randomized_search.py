@@ -1,92 +1,114 @@
-from collections.abc import Callable
+import itertools
 import numpy as np
-import pandas as pd
-from sklearn import preprocessing
+from typing import Callable, Tuple, Dict, List, Any
 
-def randomized_search_cv(
-                   model,
-                   dataset,
-                   scoring: Callable = None,
-                   parameter_distribution = dict,
-                   cv: int = 3,
-                   n_iter: int = 10,
-                   test_size: float = 0.2) -> dict[str, list[float]]:
+from si.data.dataset import Dataset
+from si.model_selection.cross_validate import cross_validate
+
+
+def randomized_search_cv(model,
+                        dataset: Dataset,
+                        #dicionário com nome do parametro e distribuião de valores
+                        parameter_distribution: Dict[str, np.ndarray],
+                        scoring: Callable = None,
+                        cv: int = 5,
+                        n_iter: int = 10,
+                        test_size: float = 0.2) -> List[Dict[str, Any]]:
     """
-    It performs cross validation on the given model and dataset.
-    It returns the scores of the model on the dataset.
-
+    Performs a randomized search cross validation on a model.
     Parameters
     ----------
     model
         The model to cross validate.
     dataset: Dataset
         The dataset to cross validate on.
+    parameter_distribution: Dict[str, np.ndarray]
+        The parameter distribution to use.
     scoring: Callable
         The scoring function to use.
     cv: int
         The cross validation folds.
+    n_iter: int
+        the number of random combinations of parameters
     test_size: float
         The test size.
-
     Returns
     -------
-    scores: Dict[str, List[float]]
+    scores: List[Dict[str, List[float]]]
         The scores of the model on the dataset.
     """
-    scores = {
-        'seeds': [],
-        'train': [],
-        'test': []
-    }
-    # Verifica se os parâmetros fornecidos existem no modelo
+    # validate the parameter distribution
     for parameter in parameter_distribution:
-            if not hasattr(model, parameter):
-                raise AttributeError(f"Model {model} does not have parameter {parameter}.")
+        if not hasattr(model, parameter):
+            raise AttributeError(f"Model {model} does not have parameter {parameter}.")
 
     scores = []
-    # Obtém n_iter combinações de parâmetros
 
-    for _ in range(n_iter):
-        parameters = {k: np.random.choice(v) for k,v in parameter_distribution.items()}
-
-        for param, val in parameters.items():
-            print(param, val)
-            setattr(model, param, val)
-        print(dataset.y)
-        score = cross_validate(model, dataset, scoring, cv, test_size)
-        score["parameters"] = parameters
+    # for each combination
+    combination=  random_parameter_combination
 
 
+        # parameter configuration
+        parameters = {}
+
+        # set the parameters
+        for parameter, value in zip(parameter_distribution.keys(), combination):
+            setattr(model, parameter, value)
+            parameters[parameter] = value
+
+        # cross validate the model
+        score = cross_validate(model=model, dataset=dataset, scoring=scoring, cv=cv, test_size=test_size)
+
+        # add the parameter configuration
+        score['parameters'] = parameters
+
+        # add the score
         scores.append(score)
 
     return scores
 
+
+
+#auxiliar functions
+import numpy as np
+
+
+def random_element(values):
+    random_index = np.random.randint(0, high=len(values))
+    return values[random_index]
+
+
+def random_parameter_combination(parameter_distribution):
+    results = {}
+
+    for key in parameter_distribution:
+        values = parameter_distribution[key]
+        results[key] = random_element(values)
+
+    return results
+
+
 if __name__ == '__main__':
+    # import dataset
     from si.data.dataset import Dataset
-    from si.model_selection.cross_validate import cross_validate
     from si.linear_model.logistic_regression import LogisticRegression
 
     # load and split the dataset
-    df = pd.read_csv("C:\\Users\\rutee\\OneDrive\\Ambiente de Trabalho\\sib\\si\\datasets\\breast-bin.data")
-    breast_dataset = Dataset.from_dataframe(df)
+    dataset_ = Dataset.from_random(600, 100, 2)
 
-
-    breast_dataset.X = preprocessing.StandardScaler().fit_transform(breast_dataset.X)
     # initialize the Logistic Regression model
-    knn = LogisticRegression()
+    lg = LogisticRegression()
 
-    # parameter grid
-    parameter_grid_ = {
-        'l2_penalty': (1, 10),
-        'alpha': (0.001, 0.0001),
-        'max_iter': (1000, 2000)
+    # parameter distribution
+    parameter_distribution_ = {
+        'l2_penalty': np.linspace(1, 10, 10),
+        'alpha':  np.linspace(0.001, 0.0001, 100),
+        'max_iter': np.linspace(1000, 2000, 200),
+
     }
 
     # cross validate the model
-    scores_ = randomized_search_cv(knn,
-                             breast_dataset,
-                             parameter_distribution=parameter_grid_,
-                             cv=3)
+    scores_ = randomized_search_cv(lg, dataset_, parameter_distribution=parameter_distribution_)
 
     # print the scores
     print(scores_)
