@@ -72,7 +72,7 @@ def randomized_search_cv(model,
 #auxiliar functions
 import numpy as np
 
-
+#ex8
 def random_element(values):
     random_index = np.random.randint(0, high=len(values))
     return values[random_index]
