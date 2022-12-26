@@ -31,3 +31,21 @@ for val in parameter_distribution_['max_iter']:
 
 
 self.k_mers = [''.join(k_mer) for k_mer in itertools.product('ACTG', repeat=self.k)]
+
+
+----
+l1 = Dense(input_size=32, output_size=16)
+
+# weights for Dense Layer 2
+
+l2 = SigmoidDense(input_size=16, output_size=1)
+
+# layers
+layers = [
+    l1,
+    l2,
+]
+
+# NN
+ff_nn = FF_NN(layers=layers)
+ff_nn.predict(dataset=X)

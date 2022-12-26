@@ -1,3 +1,4 @@
+#10.3
 from typing import Callable
 
 import numpy as np
@@ -74,14 +75,5 @@ class FF_NN:
         y_pred = self.predict(dataset)
         return scoring_func(dataset.y, y_pred)
 
-# nn imports
-from si.neural_networks.layer import Dense, SigmoidActivation
-from si.neural_networks.nn import NN
-
-
 if __name__ == '__main__':
-    input_layer= Dense(input_size= 32, output_size=16)
-    layer_2= SigmoidDense(input_size= 16, output_size=1)
-    ff_nn= FF_NN([input_layer, layer_2])
-    y_pred= ff_nn.predict(Dataset)
-    pass
+   pass
