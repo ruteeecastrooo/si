@@ -44,33 +44,33 @@ def randomized_search_cv(model,
 
     scores = []
 
-    # for each combination
-    combination=  random_parameter_combination
+     # parameter configuration
+    combination = random_parameter_combination(parameter_distribution)
 
+    # set the parameters
 
-        # parameter configuration
-        parameters = {}
+    #for key in parameters:
+        #setattr(model, key, parameters[key])
+    parameters={}
+    for parameter, value in combination:
+        print(parameter+":  "+ value)
+        setattr(model, parameter, value)
+        parameters[parameter] = value
 
-        # set the parameters
-        for parameter, value in zip(parameter_distribution.keys(), combination):
-            setattr(model, parameter, value)
-            parameters[parameter] = value
+    # cross validate the model
+    score = cross_validate(model=model, dataset=dataset, scoring=scoring, cv=cv, test_size=test_size)
 
-        # cross validate the model
-        score = cross_validate(model=model, dataset=dataset, scoring=scoring, cv=cv, test_size=test_size)
+    # add the parameter configuration
+    score['parameters'] = parameters
 
-        # add the parameter configuration
-        score['parameters'] = parameters
-
-        # add the score
-        scores.append(score)
+    # add the score
+    scores.append(score)
 
     return scores
 
 
 
 #auxiliar functions
-import numpy as np
 
 #ex8
 def random_element(values):

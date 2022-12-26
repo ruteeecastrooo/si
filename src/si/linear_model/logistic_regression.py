@@ -176,7 +176,7 @@ if __name__ == '__main__':
     from sklearn.preprocessing import StandardScaler
     import matplotlib.pyplot as plt
 
-    df = pd.read_csv("C:\\Users\\rutee\\OneDrive\\Ambiente de Trabalho\\sib\\si\\datasets\\breast-bin.data", header=None)
+    df = pd.read_csv("/datasets/breast-bin.csv", header=None)
     print(df.head())
     dataset_ = Dataset.from_dataframe(df, label=9)
     dataset_.X = StandardScaler().fit_transform(dataset_.X)
