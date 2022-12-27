@@ -82,18 +82,50 @@ class NN:
         y = dataset.y
 
         for epoch in range(1, self.epochs + 1):
+            print("=============================")
+            print("\t\t Epoch = " + str(epoch))
+            print("=============================")
+            i=0
 
+            X_layers = X
             # forward propagation
+            print("=============================")
+            print("\t\t Forward")
             for layer in self.layers:
-                X = layer.forward(X)
+
+                print("=============================")
+                print("testar input dos layers")
+                print(X)
+                if i %2==0:
+                    print("dimensoes do layer: \tinput= " + str(layer.input_size)+ "\t\toutput= " + str(layer.output_size))
+                else:
+                    print("Layer de activacao")
+                i+=1
+
+                X_layers = layer.forward(X_layers)
+
+            print()
+            print("Y_pred:")
+            print(X_layers)
+            print()
+
+            # in the end X_layers is y_pred
 
             # backward propagation
-            error = self.loss_derivative(y, X)
+            print("=============================")
+            print("\t\t Backpropagation")
+            error = self.loss_derivative(y, X_layers)
+            print("=============================")
+            print("Error ")
+            print(error)
+            print("=============================")
             for layer in self.layers[::-1]:
                 error = layer.backward(error, self.learning_rate)
 
             # save history
-            cost = self.loss(y, X)
+            cost = self.loss(y, X_layers)
+            print("=============================")
+            print("\t\t Cost")
             self.history[epoch] = cost
 
             # print loss

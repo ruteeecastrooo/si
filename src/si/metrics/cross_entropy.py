@@ -6,5 +6,6 @@ def cross_entropy (y_true: np.ndarray, y_pred: np.ndarray) -> float:
 
 def cross_entropy_derivative(y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:
 
-    ones=np.ones(len(y_true))
+    # array with len(y) lines and 1 column
+    ones=np.ones((len(y_true),1))
     return np.divide(-ones,y_pred*len(y_true))

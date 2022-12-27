@@ -49,8 +49,8 @@ layers = [
 ]
 
 # NN
-nn = NN(layers=layers, loss_derivative=cross_entropy_derivative, loss=cross_entropy)
-print("prediction")
-print(nn.predict(dataset=dataset))
+nn = NN(layers=layers, epochs=3, loss_derivative=cross_entropy_derivative, loss=cross_entropy)
+#print("prediction")
+#print(nn.predict(dataset=dataset))
 nn.fit(dataset)
 print(nn.history)
