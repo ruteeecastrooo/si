@@ -1,4 +1,4 @@
-#10.2
+
 import numpy as np
 
 class ReLUDense:
@@ -59,6 +59,7 @@ class ReLUDense:
         return error
 
 
+#10.2
 class ReLUActivation:
     """
     A ReLU activation layer.

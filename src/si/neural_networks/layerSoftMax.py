@@ -60,6 +60,7 @@ class SoftMaxDense:
         return error
 
 
+#10.1
 class SoftMaxActivation:
     """
     A SoftMax Activation layer.

@@ -35,7 +35,8 @@ class Dense:
         # attributes
         self.weights = np.random.randn(input_size, output_size) * 0.01
         self.bias = np.zeros((1, output_size))
-
+#w=w+ learning_rate*derivativeon_w
+# b=b+ learning_rate*derivativeon_b
     def forward(self, X: np.ndarray) -> np.ndarray:
         """
         Performs a forward pass of the layer using the given input.
