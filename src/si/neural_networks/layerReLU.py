@@ -90,4 +90,12 @@ class ReLUActivation:
     def backward(self, error: np.ndarray, learning_rate: float) -> np.ndarray:
         """
         """
+        for row in error:
+            for i in range(len(row)):
+                if row[i] > 0:
+                    row[i] = 1
+                else:
+                    row[i] = 0
+
         return error
+        # return np.maximum(0, error)

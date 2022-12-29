@@ -95,12 +95,6 @@ class NN:
 
                 print("=============================")
                 print("testar input dos layers")
-                print(X)
-                if i %2==0:
-                    print("dimensoes do layer: \tinput= " + str(layer.input_size)+ "\t\toutput= " + str(layer.output_size))
-                else:
-                    print("Layer de activacao")
-                i+=1
 
                 X_layers = layer.forward(X_layers)
 
@@ -116,11 +110,13 @@ class NN:
             print("\t\t Backpropagation")
             error = self.loss_derivative(y, X_layers)
             print("=============================")
-            print("Error ")
+            print("Loss Derivative Error ")
             print(error)
             print("=============================")
             for layer in self.layers[::-1]:
                 error = layer.backward(error, self.learning_rate)
+                print("updated error")
+                print(error)
 
             # save history
             cost = self.loss(y, X_layers)
