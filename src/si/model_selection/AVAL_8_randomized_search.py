@@ -48,6 +48,7 @@ def randomized_search_cv(model,
     for _ in range(n_iter):
         parameters = random_parameter_combination(parameter_distribution)
 
+
         # set the parameters
 
         for parameter, value in parameters.items():
