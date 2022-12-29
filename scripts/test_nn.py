@@ -4,7 +4,7 @@ from si.data.dataset import Dataset
 from si.neural_networks.layer import Dense, SigmoidActivation
 from si.neural_networks.layerReLU import ReLUActivation
 from si.neural_networks.nn import NN
-from si.metrics.cross_entropy import cross_entropy_derivative, cross_entropy
+from si.metrics.AVAL_11_cross_entropy import cross_entropy_derivative, cross_entropy
 X = np.array([[0, 0],
               [0, 1],
               [1, 0],

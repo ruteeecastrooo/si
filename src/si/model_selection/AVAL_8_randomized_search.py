@@ -9,7 +9,7 @@ from si.model_selection.cross_validate import cross_validate
 def randomized_search_cv(model,
                         dataset: Dataset,
                         #dicionário com nome do parametro e distribuião de valores
-                        parameter_distribution: Dict[str, np.ndarray],
+                        parameter_distribution: dict = {},
                         scoring: Callable = None,
                         cv: int = 5,
                         n_iter: int = 10,
@@ -22,7 +22,7 @@ def randomized_search_cv(model,
         The model to cross validate.
     dataset: Dataset
         The dataset to cross validate on.
-    parameter_distribution: Dict[str, np.ndarray]
+    parameter_distribution: dict = {}
         The parameter distribution to use.
     scoring: Callable
         The scoring function to use.
@@ -44,27 +44,32 @@ def randomized_search_cv(model,
 
     scores = []
 
-     # parameter configuration
-    combination = random_parameter_combination(parameter_distribution)
+    # parameter configuration
+    for _ in range(n_iter):
+        parameters = random_parameter_combination(parameter_distribution)
 
-    # set the parameters
+        # set the parameters
 
-    #for key in parameters:
-        #setattr(model, key, parameters[key])
-    parameters={}
-    for parameter, value in combination:
-        print(parameter+":  "+ value)
-        setattr(model, parameter, value)
-        parameters[parameter] = value
+        for parameter, value in parameters.items():
+            value_as_int = int(value)
+            #print("\n--------------------------\n")
+            #print("\tparameter=" + parameter + "\tREAL value=" + str(value) + "\tINT value=" + str(value_as_int))
 
-    # cross validate the model
-    score = cross_validate(model=model, dataset=dataset, scoring=scoring, cv=cv, test_size=test_size)
+            setattr(model, parameter, value_as_int)
+            parameters[parameter] = value_as_int
 
-    # add the parameter configuration
-    score['parameters'] = parameters
 
-    # add the score
-    scores.append(score)
+        # cross validate the model
+        score = cross_validate(model=model, dataset=dataset, scoring=scoring, cv=cv, test_size=test_size)
+
+        # add the parameter configuration
+        score['parameters'] = parameters
+
+        # add the score
+        scores.append(score)
+
+    # qual a melhor combinacao? Ir a combinatcao que gerou o melhor score (estao todos guardados
+    # na variavel scores)
 
     return scores
 

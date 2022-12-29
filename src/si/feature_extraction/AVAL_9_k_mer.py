@@ -27,6 +27,9 @@ class KMer9:
         """
         # parameters
         self.k = k
+        # Deixamos o utilizador escolher um alfabeto com carateres repetidos.
+        #Isto e, damos-lhe liberdade total. No entanto, caso fosse necessario,
+        #poderiamos facilmente remover os duplicados (inspeccionando o input alphabet)
         self.alphabet = alphabet
 
         # attributes

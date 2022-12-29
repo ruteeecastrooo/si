@@ -89,7 +89,13 @@ class ReLUActivation:
 
     def backward(self, error: np.ndarray, learning_rate: float) -> np.ndarray:
         """
+            Array de erros acumulados do layer da direita
+            Se assumirmos que os layers sao sempre alternados entre
+            densos e actiavacao, como este e de activacao, entao estou a
+            receber os erros acumulados de todos os nos do layers denso imediatamente
+            a minha direita
         """
+
         for row in error:
             for i in range(len(row)):
                 if row[i] > 0:
