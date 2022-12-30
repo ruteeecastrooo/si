@@ -1,14 +1,16 @@
 import numpy as np
-class RoundActivation:
+class SigmoidActivation:
     """
-    A Round Activation layer.
+    A sigmoid activation layer.
     """
 
     def __init__(self):
         """
-        Initialize the SoftMax Activation layer.
+        Initialize the sigmoid activation layer.
         """
-        pass
+        # podemos criar mais uma variável na qual guardamos
+        # os últimos X's recebidos no forward
+        self.X = []
 
     def forward(self, X: np.ndarray) -> np.ndarray:
         """
@@ -23,10 +25,11 @@ class RoundActivation:
         output: np.ndarray
             The output of the layer.
         """
+        self.X = X
+        return 1 / (1 + np.exp(-X))
 
-        return X.round()
 
     def backward(self, error: np.ndarray, learning_rate: float) -> np.ndarray:
-        """
-        """
-        return error
+        derivative_of_sigmoid = self.forward(self.X) * (1 - self.forward(self.X))
+
+        return error * derivative_of_sigmoid
