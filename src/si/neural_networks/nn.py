@@ -184,3 +184,42 @@ class NN:
 
 if __name__ == '__main__':
     pass
+
+#The ideia to solve the missing 2 exercises (12.2 and 12.3) is to study the
+#dataset, that is:
+
+#i) Find out the number of features it has and create that many nodes for the input layer.
+
+   #- That is, if |features| = 10, then the first dense layer would be l1= Dense(10, _ )
+
+#ii) Find wich problem we are dealing with, namely if it is a regression or a classification problem.
+
+#ii.1)In case it is a regression problem we could create an output dense layer dense as we did in exercise 10.5, and it's actiation layer could be LinearActivation (also, as in 10.5) or a function that would yield values more suited to the desired range of values.
+
+#ii.2) Otherwise, for a classification problem we can split it in 2 types:
+#   ii.2.a) Binary classification: where could have an output layer (dense + activation) just like we did in 10.3
+#   ii.2.b) Multiclass classification: where could use 1-HOT encoding, that is, have an output layer (dense + activation) just like we did in 10.4.
+
+#Regarding the other parameters of the neural network:
+
+#- We could have any number of layers: the best option could only be decided after
+#by comparison using some pre-determined metrics (ex: accucary).
+
+#- The same ideia could be applied to the loss function although, in this case,
+#some functions are more well suited for the type of problem we are dealing with.
+
+#- There's also no deterministic rule to find "`a priori" the best number of
+#epochs. One must take into consideration to properly train the network but
+#without making it a "training_dataset"-only expert, falling into the trap
+#of overfitting.
+
+#* In conclusion, after inspecting the datasets, one needs only to:
+
+#1) read the dataset
+#2) do some preprocessing (if needed)
+#3) split the dataset into: training_dataset and testing_dataset
+#4) create a suited neural network for it's the problem (already explained above):
+#   4.1) train the neural network (using the training_dataset)
+#   4.2) do predictions on the testing_dataset (using the already trained neural network)
+#5) Calcule some metrics regarding the predictions in 4.2)
+#6) If not satisfied, either re-train the network or create a different one and go back to step 4)
